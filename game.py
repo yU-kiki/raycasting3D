@@ -52,12 +52,26 @@ class App:
                 self.pa -= 2 * PI
             self.pdx = math.cos(self.pa) * 5
             self.pdy = math.sin(self.pa) * 5
+        
+        xo = -20 if self.pdx < 0 else 20
+        yo = -20 if self.pdy < 0 else 20
+        ipx = self.px / 64.0
+        ipx_add_xo = (self.px + xo) / 64.0
+        ipx_sub_xo = (self.px - xo) / 64.0
+        ipy = self.py / 64.0
+        ipy_add_yo = (self.py + yo) / 64.0
+        ipy_sub_yo = (self.py - yo) / 64.0
+
         if pyxel.btn(pyxel.KEY_UP):
-            self.px += self.pdx
-            self.py += self.pdy
+            if self.worldMap[int(ipx_add_xo)][int(ipy)] == 0:
+                self.px += self.pdx
+            if self.worldMap[int(ipx)][int(ipy_add_yo)] == 0:
+                self.py += self.pdy
         if pyxel.btn(pyxel.KEY_DOWN):
-            self.px -= self.pdx
-            self.py -= self.pdy
+            if self.worldMap[int(ipx_sub_xo)][int(ipy)] == 0:
+                self.px -= self.pdx
+            if self.worldMap[int(ipx)][int(ipy_sub_yo)] == 0:
+                self.py -= self.pdy
 
         self.update_rays()
 
