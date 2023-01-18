@@ -6,6 +6,14 @@ P3 = 3 * PI / 2
 DR = 0.0174533 # one degree to radius
 class App:
     def __init__(self):
+        # 0: 開発　1: 発表
+        self.mode = 0
+        # 表示関連
+        self.shiftX = 6 if self.mode == 1 else 0
+        self.shiftY = 8 if self.mode == 1 else 0
+        self.map2DSec = 32 if self.mode == 1 else 64
+        self.scale = 64 / self.map2DSec
+
         self.worldMap = [
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             [1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
@@ -21,17 +29,14 @@ class App:
         ]
         self.mapX = len(self.worldMap[0])
         self.mapY = len(self.worldMap)
-        self.maxLen = self.mapX if self.mapX >= self.mapY else self.mapY
-        self.map2DSec = 32
-        self.scale = 64 / self.map2DSec
+        self.maxLen = max(self.mapX, self.mapY)
 
-        pyxel.init(self.mapX * self.map2DSec + 480 + 24, 480)
+        pyxel.init(self.mapX * self.map2DSec + 480 + 24, max(480, self.mapY * self.map2DSec))
         self.px = 300
         self.py = 300
         self.pa = 0.0001
         self.pdx = math.cos(self.pa) * 5
         self.pdy = math.sin(self.pa) * 5
-
         self.rx = 0
         self.ry = 0
         self.ra = 0
@@ -44,7 +49,6 @@ class App:
     
     def dist(self, x1, y1, x2, y2, ang):
         return math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
-
 
     def update(self):
         if pyxel.btn(pyxel.KEY_LEFT):
@@ -191,20 +195,20 @@ class App:
         pyxel.cls(13)
         self.draw_2dMap()
         # 現在地の描画
-        pyxel.circ(self.px / self.scale, self.py / self.scale, 5 / math.sqrt(self.scale), 10)
+        pyxel.circ(self.px / self.scale + self.shiftX, self.py / self.scale + self.shiftY, 5 / math.sqrt(self.scale), 10)
         # 方向
-        pyxel.line(self.px / self.scale, self.py / self.scale, (self.px + self.pdx * 5) / self.scale, (self.py + self.pdy * 5) / self.scale, 10)
+        pyxel.line(self.px / self.scale + self.shiftX, self.py / self.scale + self.shiftY, (self.px + self.pdx * 5) / self.scale + self.shiftX, (self.py + self.pdy * 5) / self.scale + self.shiftY, 10)
         for i, v in enumerate(self.rayList):
             # ray部分の描画
-            pyxel.line(self.px / self.scale, self.py / self.scale, v[0] / self.scale, v[1] / self.scale, 11)
+            pyxel.line(self.px / self.scale  + self.shiftX, self.py / self.scale + self.shiftY, v[0] / self.scale + self.shiftX, v[1] / self.scale + self.shiftY, 11)
             # 3D部分の描画
             if v[4] == 0:
                 col = 3
             elif v[4] == 1:
                 col = 11
-            pyxel.rect(i * 8 + self.mapX * self.map2DSec + 12, 0, 8, v[3], 12)
-            pyxel.rect(i * 8 + self.mapX * self.map2DSec + 12, v[3], 8, v[2], col)
-            pyxel.rect(i * 8 + self.mapX * self.map2DSec + 12, v[2] + v[3], 8, 480 - v[2] - v[3], 7)
+            pyxel.rect(i * 8 + self.mapX * self.map2DSec + 12 + self.shiftX, 0, 8, v[3], 12)
+            pyxel.rect(i * 8 + self.mapX * self.map2DSec + 12 + self.shiftX, v[3], 8, v[2], col)
+            pyxel.rect(i * 8 + self.mapX * self.map2DSec + 12 + self.shiftX, v[2] + v[3], 8, 480 - v[2] - v[3], 7)
 
     def draw_2dMap(self):
         for y in range(self.mapY):
@@ -216,12 +220,12 @@ class App:
                     col = 0
                 xo = self.map2DSec * x
                 yo = self.map2DSec * y
-                pyxel.rect(xo, yo, self.map2DSec, self.map2DSec, col)
+                pyxel.rect(xo + self.shiftX, yo + self.shiftY, self.map2DSec, self.map2DSec, col)
                 if x > 0:
-                    pyxel.line(xo, 0, xo, self.mapY * self.map2DSec, 13)
+                    pyxel.line(xo + self.shiftX, 0 + self.shiftY, xo + self.shiftX, self.mapY * self.map2DSec + self.shiftY, 13)
                 x += 1
             if y > 0:
-                pyxel.line(0, yo, self.mapX * self.map2DSec, yo, 13)
+                pyxel.line(0 + self.shiftX, yo + self.shiftY, self.mapX * self.map2DSec + self.shiftX, yo + self.shiftY, 13)
             y += 1
             
 App()
