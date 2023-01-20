@@ -11,7 +11,7 @@ class App:
         # 表示関連
         self.shiftX = 6 if self.mode == 1 else 0
         self.shiftY = 8 if self.mode == 1 else 0
-        self.map2DSec = 24 if self.mode == 1 else 64
+        self.map2DSec = 48 if self.mode == 1 else 64
         self.scale = 64 / self.map2DSec
 
         self.worldMap = [
@@ -59,9 +59,27 @@ class App:
             2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1,
             2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
         ]
+        # self.texture1 = [
+        #     1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+        #     2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
+        #     1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+        #     2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
+        #     1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+        #     2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
+        #     1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+        #     2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
+        #     1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+        #     2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
+        #     1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+        #     2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
+        #     1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+        #     2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
+        #     1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+        #     2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1
+        # ]
 
         self.rayList = []
-        for _ in range(60):
+        for _ in range(480):
             self.rayList.append(None)
 
         pyxel.run(self.update, self.draw)
@@ -111,7 +129,7 @@ class App:
             self.ra += 2 * PI
         if self.ra > 2 * PI:
             self.ra -= 2 * PI 
-        for i in range(60):
+        for i in range(len(self.rayList)):
             # check Horizontal lines
             dof = 0
             disH = 1000000
@@ -204,20 +222,20 @@ class App:
 
             # 壁の色変更に必要
             if hit == 0:
-                rowNum = int(self.ry % 64 % 16)
+                rowNum = round(self.ry % 64 / 4) % 16
             if hit == 1:
-                rowNum = int(self.rx % 64 % 16)
-            # print(f'i: {i} mx: {mx} my: {my} rx: {self.rx} ry: {self.ry} hit: {hit} xx: {xx} lineH: {lineH}')
+                rowNum = round(self.rx % 64 / 4) % 16
+            # print(f'i: {i} mx: {mx} my: {my} rx: {self.rx} ry: {self.ry} hit: {hit} lineH: {lineH}')
             self.rayList[i] = [self.rx, self.ry, lineH, lineO, hit, rowNum]
 
-            self.ra += DR
+            self.ra += DR / 8
             if self.ra < 0:
                 self.ra += 2 * PI
             if self.ra > 2 * PI:
                 self.ra -= 2 * PI
 
     def draw(self):
-        pyxel.cls(13)
+        pyxel.cls(1)
         self.draw_2dMap()
         # 現在地の描画
         pyxel.circ(self.px / self.scale + self.shiftX, self.py / self.scale + self.shiftY, 5 / math.sqrt(self.scale), 10)
@@ -227,12 +245,12 @@ class App:
             # ray部分の描画
             pyxel.line(self.px / self.scale  + self.shiftX, self.py / self.scale + self.shiftY, v[0] / self.scale + self.shiftX, v[1] / self.scale + self.shiftY, 11)
             # 3D部分の描画
-            pyxel.rect(i * 8 + self.mapX * self.map2DSec + 12 + self.shiftX, 0, 8, v[3], 12)
+            pyxel.rect(i + self.mapX * self.map2DSec + 12 + self.shiftX, 0, 8, v[3], 0)
             for columnNum in range(16):
                 hd = v[2] / 16
                 col = self.texture1[columnNum * 16 + v[5]]
-                pyxel.rect(i * 8 + self.mapX * self.map2DSec + 12 + self.shiftX, v[3] + hd * columnNum, 8, hd, col)
-            pyxel.rect(i * 8 + self.mapX * self.map2DSec + 12 + self.shiftX, v[2] + v[3], 8, 480 - v[2] - v[3], 7)
+                pyxel.rect(i + self.mapX * self.map2DSec + 12 + self.shiftX, v[3] + hd * columnNum, 8, hd, col)
+            pyxel.rect(i + self.mapX * self.map2DSec + 12 + self.shiftX, v[2] + v[3], 8, 480 - v[2] - v[3], 0)
 
     def draw_2dMap(self):
         for y in range(self.mapY):
