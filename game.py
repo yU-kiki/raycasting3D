@@ -11,7 +11,7 @@ class App:
         # 表示関連
         self.shiftX = 6 if self.mode == 1 else 0
         self.shiftY = 8 if self.mode == 1 else 0
-        self.map2DSec = 48 if self.mode == 1 else 64
+        self.map2DSec = 24 if self.mode == 1 else 64
         self.scale = 64 / self.map2DSec
 
         self.worldMap = [
@@ -41,42 +41,29 @@ class App:
         self.ry = 0
         self.ra = 0
 
+        # 使用色を設定する
+        colorList = [0xFEFEFE, 0x0c0c0c, 0xF5BAA4, 0xECEB7D, 0x273256, 0xE55D5B, 0x64C8E3, 0xF3AC69, 0xE5ACC6, 0x804137, 0x804137, 0x3e2731, 0x85483f, 0x794641, 0x462f39, 0x7cfc00]
+        for i in range(len(colorList)):
+            pyxel.colors[i] = colorList[i]
+
         self.texture1 = [
-            1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1,
-            1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1,
-            1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1,
-            2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-            2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1,
-            2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1,
-            2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1,
-            2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-            1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1,
-            1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1,
-            1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1,
-            2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-            2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1,
-            2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1,
-            2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1,
-            2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
+            9, 9, 9, 11, 9, 9, 9, 9, 9, 9, 9, 11, 9, 9, 9, 9,
+            10, 10, 9, 11, 10, 10, 10, 10, 10, 10, 9, 11, 10, 10, 10, 10,
+            10, 10, 9, 11, 10, 10, 10, 10, 10, 10, 9, 11, 10, 10, 10, 10,
+            11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,
+            11, 9, 9, 9, 9, 9, 9, 9, 11, 9, 9, 9, 9, 9, 9, 9,
+            11, 10, 10, 10, 10, 10, 10, 9, 11, 10, 10, 10, 10, 10, 10, 9,
+            11, 10, 10, 10, 10, 10, 10, 9, 11, 10, 10, 10, 10, 10, 10, 9,
+            11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,
+            9, 9, 9, 11, 9, 9, 9, 9, 9, 9, 9, 11, 9, 9, 9, 9,
+            10, 10, 9, 11, 10, 10, 10, 10, 10, 10, 9, 11, 10, 10, 10, 10,
+            10, 10, 9, 11, 10, 10, 10, 10, 10, 10, 9, 11, 10, 10, 10, 10,
+            11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,
+            11, 9, 9, 9, 9, 9, 9, 9, 11, 9, 9, 9, 9, 9, 9, 9,
+            11, 10, 10, 10, 10, 10, 10, 9, 11, 10, 10, 10, 10, 10, 10, 9,
+            11, 10, 10, 10, 10, 10, 10, 9, 11, 10, 10, 10, 10, 10, 10, 9,
+            11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11
         ]
-        # self.texture1 = [
-        #     1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
-        #     2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
-        #     1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
-        #     2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
-        #     1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
-        #     2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
-        #     1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
-        #     2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
-        #     1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
-        #     2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
-        #     1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
-        #     2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
-        #     1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
-        #     2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
-        #     1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
-        #     2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1
-        # ]
 
         self.rayList = []
         for _ in range(480):
@@ -235,39 +222,43 @@ class App:
                 self.ra -= 2 * PI
 
     def draw(self):
-        pyxel.cls(1)
+        pyxel.cls(10)
         self.draw_2dMap()
         # 現在地の描画
-        pyxel.circ(self.px / self.scale + self.shiftX, self.py / self.scale + self.shiftY, 5 / math.sqrt(self.scale), 10)
+        pyxel.circ(self.px / self.scale + self.shiftX, self.py / self.scale + self.shiftY, 5 / math.sqrt(self.scale), 3)
         # 方向
-        pyxel.line(self.px / self.scale + self.shiftX, self.py / self.scale + self.shiftY, (self.px + self.pdx * 5) / self.scale + self.shiftX, (self.py + self.pdy * 5) / self.scale + self.shiftY, 10)
+        pyxel.line(self.px / self.scale + self.shiftX, self.py / self.scale + self.shiftY, (self.px + self.pdx * 5) / self.scale + self.shiftX, (self.py + self.pdy * 5) / self.scale + self.shiftY, 15)
         for i, v in enumerate(self.rayList):
             # ray部分の描画
-            pyxel.line(self.px / self.scale  + self.shiftX, self.py / self.scale + self.shiftY, v[0] / self.scale + self.shiftX, v[1] / self.scale + self.shiftY, 11)
+            if i % 8 == 0:
+                pyxel.line(self.px / self.scale  + self.shiftX, self.py / self.scale + self.shiftY, v[0] / self.scale + self.shiftX, v[1] / self.scale + self.shiftY, 15)
             # 3D部分の描画
-            pyxel.rect(i + self.mapX * self.map2DSec + 12 + self.shiftX, 0, 8, v[3], 0)
+            pyxel.rect(i + self.mapX * self.map2DSec + 12 + self.shiftX, 0, 8, v[3], 1)
             for columnNum in range(16):
                 hd = v[2] / 16
                 col = self.texture1[columnNum * 16 + v[5]]
+                # より立体感を出す
+                if v[4] == 0:
+                    col += 3
                 pyxel.rect(i + self.mapX * self.map2DSec + 12 + self.shiftX, v[3] + hd * columnNum, 8, hd, col)
-            pyxel.rect(i + self.mapX * self.map2DSec + 12 + self.shiftX, v[2] + v[3], 8, 480 - v[2] - v[3], 0)
+            pyxel.rect(i + self.mapX * self.map2DSec + 12 + self.shiftX, v[2] + v[3], 8, 480 - v[2] - v[3], 1)
 
     def draw_2dMap(self):
         for y in range(self.mapY):
             for x in range(self.mapX):
                 col = 0
                 if self.worldMap[y][x] == 0:
-                    col = 7
-                elif self.worldMap[y][x] == 1:
                     col = 0
+                elif self.worldMap[y][x] == 1:
+                    col = 1
                 xo = self.map2DSec * x
                 yo = self.map2DSec * y
                 pyxel.rect(xo + self.shiftX, yo + self.shiftY, self.map2DSec, self.map2DSec, col)
                 if x > 0:
-                    pyxel.line(xo + self.shiftX, 0 + self.shiftY, xo + self.shiftX, self.mapY * self.map2DSec + self.shiftY, 13)
+                    pyxel.line(xo + self.shiftX, 0 + self.shiftY, xo + self.shiftX, self.mapY * self.map2DSec + self.shiftY, 2)
                 x += 1
             if y > 0:
-                pyxel.line(0 + self.shiftX, yo + self.shiftY, self.mapX * self.map2DSec + self.shiftX, yo + self.shiftY, 13)
+                pyxel.line(0 + self.shiftX, yo + self.shiftY, self.mapX * self.map2DSec + self.shiftX, yo + self.shiftY, 2)
             y += 1
             
 App()
