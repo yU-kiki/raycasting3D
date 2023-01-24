@@ -15,17 +15,14 @@ class App:
         self.scale = 64 / self.map2DSec
 
         # self.worldMap = [
-        #     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        #     [1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
-        #     [1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-        #     [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-        #     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        #     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        #     [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
-        #     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        #     [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
-        #     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        #     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        #     [1, 1, 1, 1, 1, 1, 1, 1],
+        #     [1, 0, 0, 0, 0, 0, 0, 1],
+        #     [1, 0, 0, 1, 0, 0, 0, 1],
+        #     [1, 0, 1, 1, 0, 0, 0, 1],
+        #     [1, 0, 0, 0, 0, 1, 0, 1],
+        #     [1, 0, 1, 0, 0, 0, 0, 1],
+        #     [1, 0, 0, 0, 0, 0, 0, 1],
+        #     [1, 1, 1, 1, 1, 1, 1, 1],
         # ]
         self.worldMap = [
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -85,42 +82,6 @@ class App:
         #     11, 10, 10, 10, 10, 10, 10, 9, 11, 10, 10, 10, 10, 10, 10, 9,
         #     11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11
         # ]
-        # self.texture1 = [
-        #     4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-        #     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        #     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        #     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        #     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        #     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        #     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        #     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        #     1, 4, 4, 4, 4, 4, 4, 4, 1, 4, 4, 4, 4, 4, 4, 4,
-        #     4, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1,
-        #     1, 4, 4, 4, 4, 4, 4, 4, 1, 4, 4, 4, 4, 4, 4, 4,
-        #     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        #     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        #     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        #     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        #     4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-        # ]
-        # self.texture1 = [
-        #     4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-        #     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        #     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        #     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        #     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        #     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        #     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        #     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        #     1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4,
-        #     4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1,
-        #     1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4,
-        #     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        #     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        #     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        #     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        #     4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-        # ]
         self.texture1 = [
             4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
             1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -144,6 +105,19 @@ class App:
         for _ in range(480):
             self.rayList.append(None)
 
+        # spliteの深さの比較のため、壁の線の深さを保持する
+        self.depth = []
+        for _ in range(480):
+            self.depth.append(None)
+
+        self.spliteList = []
+        for i in range(3):
+            dict = {}
+            dict["x"] = (i + 1.5) * 64
+            dict["y"] = 96
+            dict["z"] = 0
+            self.spliteList.append(dict)
+
         pyxel.run(self.update, self.draw)
     
     def dist(self, x1, y1, x2, y2, ang):
@@ -154,17 +128,17 @@ class App:
             self.pa -= 0.1
             if self.pa < 0:
                 self.pa += 2 * PI
-            self.pdx = math.cos(self.pa) * 5
-            self.pdy = math.sin(self.pa) * 5
+            self.pdx = math.cos(self.pa) * 3
+            self.pdy = math.sin(self.pa) * 3
         if pyxel.btn(pyxel.KEY_RIGHT):
             self.pa += 0.1
             if self.pa > 2 * PI:
                 self.pa -= 2 * PI
-            self.pdx = math.cos(self.pa) * 5
-            self.pdy = math.sin(self.pa) * 5
+            self.pdx = math.cos(self.pa) * 3
+            self.pdy = math.sin(self.pa) * 3
         
-        xo = -40 if self.pdx < 0 else 40
-        yo = -40 if self.pdy < 0 else 40
+        xo = -20 if self.pdx < 0 else 20
+        yo = -20 if self.pdy < 0 else 20
         ipx = self.px / 64.0
         ipx_add_xo = (self.px + xo) / 64.0
         ipx_sub_xo = (self.px - xo) / 64.0
@@ -192,7 +166,7 @@ class App:
         if self.ra > 2 * PI:
             self.ra -= 2 * PI 
         for i in range(len(self.rayList)):
-            # check Horizontal lines
+            # 水平方向でチェック
             dof = 0
             disH = 1000000
             hx = self.px
@@ -225,7 +199,7 @@ class App:
                     self.ry += yo
                     dof += 1
 
-            # check Vertical lines
+            # 垂直方向でチェック
             dof = 0
             disV = 1000000
             vx = self.px
@@ -281,14 +255,21 @@ class App:
             if lineH > 320:
                 lineH = 320
             lineO = 160 - lineH / 2
+            self.depth[i] = disT
 
             # 壁の色変更に必要
             if hit == 0:
                 rowNum = round(self.ry % 64 / 4) % 16
             if hit == 1:
                 rowNum = round(self.rx % 64 / 4) % 16
-            # print(f'i: {i} mx: {mx} my: {my} rx: {self.rx} ry: {self.ry} hit: {hit} lineH: {lineH}')
-            self.rayList[i] = [self.rx, self.ry, lineH, lineO, hit, rowNum]
+            rayDict = {}
+            rayDict["rx"] = self.rx
+            rayDict["ry"] = self.ry
+            rayDict["lineH"] = lineH
+            rayDict["lineO"] = lineO
+            rayDict["hit"] = hit
+            rayDict["rowNum"] = rowNum
+            self.rayList[i] = rayDict
 
             self.ra += DR / 8
             if self.ra < 0:
@@ -303,20 +284,23 @@ class App:
         pyxel.circ(self.px / self.scale + self.shiftX, self.py / self.scale + self.shiftY, 5 / math.sqrt(self.scale), 3)
         # 方向
         pyxel.line(self.px / self.scale + self.shiftX, self.py / self.scale + self.shiftY, (self.px + self.pdx * 5) / self.scale + self.shiftX, (self.py + self.pdy * 5) / self.scale + self.shiftY, 15)
-        for i, v in enumerate(self.rayList):
+        for i, ray in enumerate(self.rayList):
             # ray部分の描画
             if i % 8 == 0:
-                pyxel.line(self.px / self.scale  + self.shiftX, self.py / self.scale + self.shiftY, v[0] / self.scale + self.shiftX, v[1] / self.scale + self.shiftY, 3)
+                pyxel.line(self.px / self.scale  + self.shiftX, self.py / self.scale + self.shiftY, ray["rx"] / self.scale + self.shiftX, ray["ry"] / self.scale + self.shiftY, 3)
+                # pyxel.line(self.px / self.scale  + self.shiftX, self.py / self.scale + self.shiftY, ray["rx"] / self.scale + self.shiftX, ray["ry"] / self.scale + self.shiftY, 3)
             # 3D部分の描画
-            pyxel.rect(i + self.mapX * self.map2DSec + 12 + self.shiftX, 0, 8, v[3], 1)
+            pyxel.rect(i + self.mapX * self.map2DSec + 12 + self.shiftX, 0, 8, ray["lineO"], 1)
             for columnNum in range(16):
-                hd = v[2] / 16
-                col = self.texture1[columnNum * 16 + v[5]]
+                hd = ray["lineH"] / 16
+                col = self.texture1[columnNum * 16 + ray["rowNum"]]
                 # より立体感を出す
-                # if v[4] == 0:
+                # if ray["hit"] == 0:
                 #     col += 3
-                pyxel.rect(i + self.mapX * self.map2DSec + 12 + self.shiftX, v[3] + hd * columnNum, 8, hd, col)
-            pyxel.rect(i + self.mapX * self.map2DSec + 12 + self.shiftX, v[2] + v[3], 8, 480 - v[2] - v[3], 1)
+                pyxel.rect(i + self.mapX * self.map2DSec + 12 + self.shiftX, ray["lineO"] + hd * columnNum, 8, hd, col)
+            pyxel.rect(i + self.mapX * self.map2DSec + 12 + self.shiftX, ray["lineH"] + ray["lineO"], 8, 480 - ray["lineH"] - ray["lineO"], 1)
+            # splite部分の描画
+            self.draw_splite()
 
     def draw_2dMap(self):
         for y in range(self.mapY):
@@ -335,5 +319,30 @@ class App:
             if y > 0:
                 pyxel.line(0 + self.shiftX, yo + self.shiftY, self.mapX * self.map2DSec + self.shiftX, yo + self.shiftY, 4)
             y += 1
-            
+
+    def draw_splite(self):
+        for splite in self.spliteList:
+            # 現在地とスプライトを通る直線がx軸と為す角度
+            theta = math.atan2(splite["y"] - self.py, splite["x"] - self.px)
+            if theta < 0:
+                theta += 2 * PI
+            if theta > 2 * PI:
+                theta -= 2 * PI
+            # spliteが視野に入っているかチェック
+            if self.pa - DR * 30 < theta and theta < self.pa + DR * 30:
+                sx = splite["x"] - self.px
+                sy = splite["y"] - self.py
+                sz = splite["z"]
+                CS = math.cos(-self.pa)
+                SN = math.sin(-self.pa)
+                a = sy * CS + sx * SN
+                b = sx * CS - sy * SN
+                sx = a
+                sy = b
+                sx = (sx * 432.0 / sy) + (480 / 2)
+                sy = (sz * 432.0 / sy) + (320 / 2)
+
+                if sx > 0 and sx < 480 and b < self.depth[int(sx)]:
+                    pyxel.circ(sx + self.mapX * self.map2DSec + 12 + self.shiftX, sy, 10, 3)
+
 App()
