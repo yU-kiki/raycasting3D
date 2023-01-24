@@ -26,33 +26,61 @@ class App:
         # ]
         self.worldMap = [
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1],
-            [1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
-            [1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1],
-            [1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1],
-            [1, 1, 1, 0, 1, 0, 1, 2, 1, 0, 1, 0, 1, 1, 1],
-            [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0],
-            [1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1],
-            [1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1],
-            [1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1],
-            [1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
-            [1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1],
-            [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1],
+            [1, 3, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 3, 1],
+            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+            [1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 1, 2, 1, 2, 1],
+            [1, 2, 2, 2, 1, 2, 2, 1, 2, 2, 1, 2, 2, 2, 1],
+            [1, 1, 1, 2, 1, 1, 0, 1, 0, 1, 1, 2, 1, 1, 1],
+            [1, 1, 1, 2, 1, 0, 0, 0, 0, 0, 1, 2, 1, 1, 1],
+            [1, 1, 1, 2, 1, 0, 1, 5, 1, 0, 1, 2, 1, 1, 1],
+            [0, 0, 0, 2, 0, 0, 1, 0, 1, 0, 0, 2, 0, 0, 0],
+            [1, 1, 1, 2, 1, 0, 1, 1, 1, 0, 1, 2, 1, 1, 1],
+            [1, 1, 1, 2, 1, 0, 0, 0, 0, 0, 1, 2, 1, 1, 1],
+            [1, 1, 1, 2, 1, 1, 0, 1, 0, 1, 1, 2, 1, 1, 1],
+            [1, 2, 2, 2, 1, 2, 2, 1, 2, 2, 1, 2, 2, 2, 1],
+            [1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 1, 2, 1, 2, 1],
+            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+            [1, 3, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 3, 1],
+            [1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
         ]
         self.mapX = len(self.worldMap[0])
         self.mapY = len(self.worldMap)
         self.maxLen = max(self.mapX, self.mapY)
+        self.spliteList = []
+        for x in range(self.mapX):
+            for y in range(self.mapY):
+                if self.worldMap[y][x] == 2:
+                    dict = {}
+                    dict["state"] = 1
+                    dict["type"] = 2
+                    dict["x"] = (x + 0.5) * 64
+                    dict["y"] = (y + 0.5) * 64
+                    dict["z"] = 10
+                    dict["size"] = 20
+                    self.spliteList.append(dict)
+                if self.worldMap[y][x] == 3:
+                    dict = {}
+                    dict["state"] = 1
+                    dict["type"] = 3
+                    dict["x"] = (x + 0.5) * 64
+                    dict["y"] = (y + 0.5) * 64
+                    dict["z"] = 10
+                    dict["size"] = 60
+                    self.spliteList.append(dict)
 
-        pyxel.init(self.mapX * self.map2DSec + 480 + 24, max(480, self.mapY * self.map2DSec))
-        self.px = 300
-        self.py = 300
-        self.pa = 0.0001
+        # for i in range(3):
+        #     dict = {}
+        #     dict["x"] = (i + 1.5) * 64
+        #     dict["y"] = 96
+        #     dict["z"] = 0
+        #     self.spliteList.append(dict)
+
+        pyxel.init(self.mapX * self.map2DSec + 480 + 24, max(480, self.mapY * self.map2DSec), title="PAC-MAN-3D", display_scale=2, capture_scale=2)
+        self.px = 480
+        self.py = 992
+        self.pa = 3.141592
         self.pdx = math.cos(self.pa) * 5
         self.pdy = math.sin(self.pa) * 5
         self.rx = 0
@@ -110,14 +138,6 @@ class App:
         for _ in range(480):
             self.depth.append(None)
 
-        self.spliteList = []
-        for i in range(3):
-            dict = {}
-            dict["x"] = (i + 1.5) * 64
-            dict["y"] = 96
-            dict["z"] = 0
-            self.spliteList.append(dict)
-
         pyxel.run(self.update, self.draw)
     
     def dist(self, x1, y1, x2, y2, ang):
@@ -147,14 +167,14 @@ class App:
         ipy_sub_yo = (self.py - yo) / 64.0
 
         if pyxel.btn(pyxel.KEY_UP):
-            if self.worldMap[int(ipy)][int(ipx_add_xo)] == 0:
+            if self.worldMap[int(ipy)][int(ipx_add_xo)] in [0, 2, 3]:
                 self.px += self.pdx
-            if self.worldMap[int(ipy_add_yo)][int(ipx)] == 0:
+            if self.worldMap[int(ipy_add_yo)][int(ipx)] in [0, 2, 3]:
                 self.py += self.pdy
         if pyxel.btn(pyxel.KEY_DOWN):
-            if self.worldMap[int(ipy)][int(ipx_sub_xo)] == 0:
+            if self.worldMap[int(ipy)][int(ipx_sub_xo)] in [0, 2, 3]:
                 self.px -= self.pdx
-            if self.worldMap[int(ipy_sub_yo)][int(ipx)] == 0:
+            if self.worldMap[int(ipy_sub_yo)][int(ipx)] in [0, 2, 3]:
                 self.py -= self.pdy
 
         self.update_rays()
@@ -301,12 +321,13 @@ class App:
             pyxel.rect(i + self.mapX * self.map2DSec + 12 + self.shiftX, ray["lineH"] + ray["lineO"], 8, 480 - ray["lineH"] - ray["lineO"], 1)
             # splite部分の描画
             self.draw_splite()
+        pyxel.text(800, 350, f'time: {pyxel.frame_count // 30}', 0)
 
     def draw_2dMap(self):
         for y in range(self.mapY):
             for x in range(self.mapX):
                 col = 0
-                if self.worldMap[y][x] == 0:
+                if self.worldMap[y][x] in [0, 2, 3]:
                     col = 0
                 elif self.worldMap[y][x] == 1:
                     col = 1
@@ -315,6 +336,10 @@ class App:
                 pyxel.rect(xo + self.shiftX, yo + self.shiftY, self.map2DSec, self.map2DSec, col)
                 if x > 0:
                     pyxel.line(xo + self.shiftX, 0 + self.shiftY, xo + self.shiftX, self.mapY * self.map2DSec + self.shiftY, 4)
+                if self.worldMap[y][x] == 2:
+                    pyxel.circ((x + 0.5) * self.map2DSec + self.shiftX, (y + 0.5) * self.map2DSec + self.shiftY, 5 / self.scale, 3)
+                if self.worldMap[y][x] == 3:
+                    pyxel.circ((x + 0.5) * self.map2DSec + self.shiftX, (y + 0.5) * self.map2DSec + self.shiftY, 15 / self.scale, 3)
                 x += 1
             if y > 0:
                 pyxel.line(0 + self.shiftX, yo + self.shiftY, self.mapX * self.map2DSec + self.shiftX, yo + self.shiftY, 4)
@@ -343,6 +368,7 @@ class App:
                 sy = (sz * 432.0 / sy) + (320 / 2)
 
                 if sx > 0 and sx < 480 and b < self.depth[int(sx)]:
-                    pyxel.circ(sx + self.mapX * self.map2DSec + 12 + self.shiftX, sy, 10, 3)
+                    if not(splite["type"] == 3 and pyxel.frame_count // 15 % 2 == 0):
+                        pyxel.circ(sx + self.mapX * self.map2DSec + 12 + self.shiftX, sy, splite["size"], 3)
 
 App()
