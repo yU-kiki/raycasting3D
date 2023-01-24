@@ -1,18 +1,21 @@
 import pyxel
 import math
+
 PI = 3.1415926535
 P2 = PI / 2
 P3 = 3 * PI / 2
 DR = 0.0174533 # one degree to radius
 class App:
     def __init__(self):
-        # 0: 開発　1: 発表
+
+        # 0: 開発　1: ゲーム
         self.mode = 1
-        # 表示関連
-        self.shiftX = 6 if self.mode == 1 else 0
-        self.shiftY = 8 if self.mode == 1 else 0
-        self.map2DSec = 24 if self.mode == 1 else 64
-        self.scale = 64 / self.map2DSec
+
+        # 表示関連(0:開発用)
+        self.shiftX = 6 if self.mode == 0 else None
+        self.shiftY = 8 if self.mode == 0 else None
+        self.map2DSec = 24 if self.mode == 0 else None
+        self.scale = 64 / self.map2DSec if self.mode == 0 else None
 
         # self.worldMap = [
         #     [1, 1, 1, 1, 1, 1, 1, 1],
@@ -24,6 +27,8 @@ class App:
         #     [1, 0, 0, 0, 0, 0, 0, 1],
         #     [1, 1, 1, 1, 1, 1, 1, 1],
         # ]
+
+        # ２Dのマップ
         self.worldMap = [
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             [1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1],
@@ -48,6 +53,8 @@ class App:
         self.mapX = len(self.worldMap[0])
         self.mapY = len(self.worldMap)
         self.maxLen = max(self.mapX, self.mapY)
+
+        # worldマップの情報からspliteのリストを作成
         self.spliteList = []
         for x in range(self.mapX):
             for y in range(self.mapY):
@@ -58,7 +65,7 @@ class App:
                     dict["x"] = (x + 0.5) * 64
                     dict["y"] = (y + 0.5) * 64
                     dict["z"] = 10
-                    dict["size"] = 20
+                    dict["size"] = 10
                     self.spliteList.append(dict)
                 if self.worldMap[y][x] == 3:
                     dict = {}
@@ -67,50 +74,11 @@ class App:
                     dict["x"] = (x + 0.5) * 64
                     dict["y"] = (y + 0.5) * 64
                     dict["z"] = 10
-                    dict["size"] = 60
+                    dict["size"] = 30
                     self.spliteList.append(dict)
 
-        # for i in range(3):
-        #     dict = {}
-        #     dict["x"] = (i + 1.5) * 64
-        #     dict["y"] = 96
-        #     dict["z"] = 0
-        #     self.spliteList.append(dict)
-
-        pyxel.init(self.mapX * self.map2DSec + 480 + 24, max(480, self.mapY * self.map2DSec), title="PAC-MAN-3D", display_scale=2, capture_scale=2)
-        self.px = 480
-        self.py = 992
-        self.pa = 3.141592
-        self.pdx = math.cos(self.pa) * 5
-        self.pdy = math.sin(self.pa) * 5
-        self.rx = 0
-        self.ry = 0
-        self.ra = 0
-
-        # 使用色を設定する
-        colorList = [0xFEFEFE, 0x0c0c0c, 0xF5BAA4, 0xECEB7D, 0x3C36A2, 0xE55D5B, 0x64C8E3, 0xF3AC69, 0xE5ACC6, 0x804137, 0x804137, 0x3e2731, 0x85483f, 0x794641, 0x462f39, 0x7cfc00]
-        for i in range(len(colorList)):
-            pyxel.colors[i] = colorList[i]
-
-        # self.texture1 = [
-        #     9, 9, 9, 11, 9, 9, 9, 9, 9, 9, 9, 11, 9, 9, 9, 9,
-        #     10, 10, 9, 11, 10, 10, 10, 10, 10, 10, 9, 11, 10, 10, 10, 10,
-        #     10, 10, 9, 11, 10, 10, 10, 10, 10, 10, 9, 11, 10, 10, 10, 10,
-        #     11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,
-        #     11, 9, 9, 9, 9, 9, 9, 9, 11, 9, 9, 9, 9, 9, 9, 9,
-        #     11, 10, 10, 10, 10, 10, 10, 9, 11, 10, 10, 10, 10, 10, 10, 9,
-        #     11, 10, 10, 10, 10, 10, 10, 9, 11, 10, 10, 10, 10, 10, 10, 9,
-        #     11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,
-        #     9, 9, 9, 11, 9, 9, 9, 9, 9, 9, 9, 11, 9, 9, 9, 9,
-        #     10, 10, 9, 11, 10, 10, 10, 10, 10, 10, 9, 11, 10, 10, 10, 10,
-        #     10, 10, 9, 11, 10, 10, 10, 10, 10, 10, 9, 11, 10, 10, 10, 10,
-        #     11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,
-        #     11, 9, 9, 9, 9, 9, 9, 9, 11, 9, 9, 9, 9, 9, 9, 9,
-        #     11, 10, 10, 10, 10, 10, 10, 9, 11, 10, 10, 10, 10, 10, 10, 9,
-        #     11, 10, 10, 10, 10, 10, 10, 9, 11, 10, 10, 10, 10, 10, 10, 9,
-        #     11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11
-        # ]
-        self.texture1 = [
+        # 壁のテクスチャー
+        self.texture_wall = [
             4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
             1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
             1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -129,16 +97,40 @@ class App:
             4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
         ]
 
+        # モードによって画面を分ける
+        if self.mode == 0:
+            pyxel.init(self.mapX * self.map2DSec + 480 + 24, max(480, self.mapY * self.map2DSec), title="PAC-MAN-3D", display_scale=2, quit_key=pyxel.KEY_Q)
+        if self.mode == 1:
+            pyxel.init(240, 160, title="PAC-MAN-3D", display_scale=3, quit_key=pyxel.KEY_Q)
+
+        # 使用色を設定する
+        colorList = [0xFEFEFE, 0x0c0c0c, 0xF5BAA4, 0xECEB7D, 0x3C36A2, 0xE55D5B, 0x64C8E3, 0xF3AC69, 0xE5ACC6, 0x804137, 0x804137, 0x3e2731, 0x85483f, 0x794641, 0x462f39, 0x7cfc00]
+        for i in range(len(colorList)):
+            pyxel.colors[i] = colorList[i]
+
+        # ２Dマップの情報
+        self.px = 480
+        self.py = 992
+        self.pa = 3.141592
+        self.pdx = math.cos(self.pa) * 5
+        self.pdy = math.sin(self.pa) * 5
+        self.rx = 0
+        self.ry = 0
+        self.ra = 0
+
         self.rayList = []
-        for _ in range(480):
+        for _ in range(240):
             self.rayList.append(None)
 
         # spliteの深さの比較のため、壁の線の深さを保持する
         self.depth = []
-        for _ in range(480):
+        for _ in range(240):
             self.depth.append(None)
 
-        pyxel.run(self.update, self.draw)
+        if self.mode == 0:
+            pyxel.run(self.update, self.draw_dev)
+        if self.mode == 1:
+            pyxel.run(self.update, self.draw)
     
     def dist(self, x1, y1, x2, y2, ang):
         return math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
@@ -271,10 +263,10 @@ class App:
             if ca > 2 * PI:
                 ca -= 2 * PI
             disT = disT * math.cos(ca)
-            lineH = (64 * 320) / disT
-            if lineH > 320:
-                lineH = 320
-            lineO = 160 - lineH / 2
+            lineH = (64 * 160) / disT
+            if lineH > 160:
+                lineH = 160
+            lineO = 80 - lineH / 2
             self.depth[i] = disT
 
             # 壁の色変更に必要
@@ -291,13 +283,27 @@ class App:
             rayDict["rowNum"] = rowNum
             self.rayList[i] = rayDict
 
-            self.ra += DR / 8
+            self.ra += DR / 4
             if self.ra < 0:
                 self.ra += 2 * PI
             if self.ra > 2 * PI:
                 self.ra -= 2 * PI
 
     def draw(self):
+        pyxel.cls(1)
+        for i, ray in enumerate(self.rayList):
+            # 3D部分の描画
+            pyxel.rect(i, 0, 4, ray["lineO"], 1)
+            for columnNum in range(16):
+                hd = ray["lineH"] / 16
+                col = self.texture_wall[columnNum * 16 + ray["rowNum"]]
+                pyxel.rect(i, ray["lineO"] + hd * columnNum, 4, hd, col)
+            pyxel.rect(i, ray["lineH"] + ray["lineO"], 4, 480 - ray["lineH"] - ray["lineO"], 1)
+            # splite部分の描画
+            self.draw_splite()
+        pyxel.text(200, 10, f'time: {pyxel.frame_count // 30}', 0)
+
+    def draw_dev(self):
         pyxel.cls(1)
         self.draw_2dMap()
         # 現在地の描画
@@ -308,17 +314,16 @@ class App:
             # ray部分の描画
             if i % 8 == 0:
                 pyxel.line(self.px / self.scale  + self.shiftX, self.py / self.scale + self.shiftY, ray["rx"] / self.scale + self.shiftX, ray["ry"] / self.scale + self.shiftY, 3)
-                # pyxel.line(self.px / self.scale  + self.shiftX, self.py / self.scale + self.shiftY, ray["rx"] / self.scale + self.shiftX, ray["ry"] / self.scale + self.shiftY, 3)
             # 3D部分の描画
-            pyxel.rect(i + self.mapX * self.map2DSec + 12 + self.shiftX, 0, 8, ray["lineO"], 1)
+            pyxel.rect(i + self.mapX * self.map2DSec + 12 + self.shiftX, 0, 4, ray["lineO"], 1)
             for columnNum in range(16):
                 hd = ray["lineH"] / 16
-                col = self.texture1[columnNum * 16 + ray["rowNum"]]
+                col = self.texture_wall[columnNum * 16 + ray["rowNum"]]
                 # より立体感を出す
                 # if ray["hit"] == 0:
                 #     col += 3
-                pyxel.rect(i + self.mapX * self.map2DSec + 12 + self.shiftX, ray["lineO"] + hd * columnNum, 8, hd, col)
-            pyxel.rect(i + self.mapX * self.map2DSec + 12 + self.shiftX, ray["lineH"] + ray["lineO"], 8, 480 - ray["lineH"] - ray["lineO"], 1)
+                pyxel.rect(i + self.mapX * self.map2DSec + 12 + self.shiftX, ray["lineO"] + hd * columnNum, 4, hd, col)
+            pyxel.rect(i + self.mapX * self.map2DSec + 12 + self.shiftX, ray["lineH"] + ray["lineO"], 4, 480 - ray["lineH"] - ray["lineO"], 1)
             # splite部分の描画
             self.draw_splite()
         pyxel.text(800, 350, f'time: {pyxel.frame_count // 30}', 0)
@@ -346,6 +351,8 @@ class App:
             y += 1
 
     def draw_splite(self):
+        # 開発モード表示用
+        shiftX = self.mapX * self.map2DSec + 12 if self.mode == 0 else 0
         for splite in self.spliteList:
             # 現在地とスプライトを通る直線がx軸と為す角度
             theta = math.atan2(splite["y"] - self.py, splite["x"] - self.px)
@@ -364,11 +371,11 @@ class App:
                 b = sx * CS - sy * SN
                 sx = a
                 sy = b
-                sx = (sx * 432.0 / sy) + (480 / 2)
-                sy = (sz * 432.0 / sy) + (320 / 2)
+                sx = (sx * 216.0 / sy) + (240 / 2)
+                sy = (sz * 216.0 / sy) + (160 / 2)
 
-                if sx > 0 and sx < 480 and b < self.depth[int(sx)]:
+                if sx > 0 and sx < 240 and b < self.depth[int(sx)]:
                     if not(splite["type"] == 3 and pyxel.frame_count // 15 % 2 == 0):
-                        pyxel.circ(sx + self.mapX * self.map2DSec + 12 + self.shiftX, sy, splite["size"], 3)
+                        pyxel.circ(sx + shiftX, sy, splite["size"], 3)
 
 App()
