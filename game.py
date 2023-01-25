@@ -1,5 +1,8 @@
 import pyxel
 import math
+# サウンドの再生に必要
+import wave
+import pyaudio
 
 PI = 3.1415926535
 P2 = PI / 2
@@ -132,7 +135,9 @@ class App:
             self.depth.append(None)
 
         # ゲーム
+        self.gameState = 0
         self.score = 0
+        self.startTime = 0
 
         if self.mode == 0:
             pyxel.run(self.update, self.draw_dev)
@@ -142,7 +147,70 @@ class App:
     def dist(self, x1, y1, x2, y2, ang):
         return math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
 
+    def playSound(self, i):
+        if i == 1:
+            # wavファイルを開く
+            with wave.open('./src/gamestart.wav', 'r') as wav_file:
+                # wavファイルの情報を取得
+                num_channels = wav_file.getnchannels()
+                sample_width = wav_file.getsampwidth()
+                frame_rate = wav_file.getframerate()
+                num_frames = wav_file.getnframes()
+
+                # データを読み込み
+                data = wav_file.readframes(num_frames)
+
+        if i == 2:
+            # wavファイルを開く
+            with wave.open('./src/move.wav', 'r') as wav_file:
+                # wavファイルの情報を取得
+                num_channels = wav_file.getnchannels()
+                sample_width = wav_file.getsampwidth()
+                frame_rate = wav_file.getframerate()
+                num_frames = wav_file.getnframes()
+
+                # データを読み込み
+                data = wav_file.readframes(num_frames)
+
+        if i == 3:
+            # wavファイルを開く
+            with wave.open('./src/gameover.wav', 'r') as wav_file:
+                # wavファイルの情報を取得
+                num_channels = wav_file.getnchannels()
+                sample_width = wav_file.getsampwidth()
+                frame_rate = wav_file.getframerate()
+                num_frames = wav_file.getnframes()
+
+                # データを読み込み
+                data = wav_file.readframes(num_frames)
+        
+        # pyaudioのインスタンスを生成
+        p = pyaudio.PyAudio()
+
+        # 音声を出力するストリームを開く
+        stream = p.open(format=p.get_format_from_width(sample_width),
+                        channels=num_channels,
+                        rate=frame_rate,
+                        output=True)
+
+        # 音声を出力
+        stream.write(data)
+        
+        # ストリームを閉じる
+        stream.stop_stream()
+        stream.close()
+        
+        # pyaudioのインスタンスを終了
+        p.terminate()
+
     def update(self):
+        if pyxel.btn(pyxel.KEY_SPACE):
+            self.gameState = 1
+            self.startTime = pyxel.frame_count
+            self.playSound(1)
+        if self.gameState == 1 and (pyxel.frame_count - self.startTime) / 30 >= 3:
+            self.gameState = 2
+            self.startTime = pyxel.frame_count
         if pyxel.btn(pyxel.KEY_LEFT):
             self.pa -= 0.1
             if self.pa < 0:
@@ -340,8 +408,9 @@ class App:
             pyxel.rect(i, ray["lineH"] + ray["lineO"], 4, 480 - ray["lineH"] - ray["lineO"], 1)
             # splite部分の描画
             self.draw_splite()
+        # 点数等を表示
         pyxel.text(190, 10, 'time: ', 5)
-        pyxel.text(220, 10, f'{pyxel.frame_count // 30}', 0)
+        pyxel.text(220, 10, f'{(pyxel.frame_count - self.startTime) // 30}', 0)
         pyxel.text(190, 20, 'score: ', 5)
         pyxel.text(220, 20, f'{self.score}', 0)
 
