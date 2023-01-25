@@ -65,6 +65,8 @@ class App:
                     dict["x"] = (x + 0.5) * 64
                     dict["y"] = (y + 0.5) * 64
                     dict["z"] = 10
+                    dict["ix"] = x
+                    dict["iy"] = y
                     dict["size"] = 10
                     self.spliteList.append(dict)
                 if self.worldMap[y][x] == 3:
@@ -74,6 +76,8 @@ class App:
                     dict["x"] = (x + 0.5) * 64
                     dict["y"] = (y + 0.5) * 64
                     dict["z"] = 10
+                    dict["ix"] = x
+                    dict["iy"] = y
                     dict["size"] = 30
                     self.spliteList.append(dict)
 
@@ -127,6 +131,9 @@ class App:
         for _ in range(240):
             self.depth.append(None)
 
+        # ゲーム
+        self.score = 0
+
         if self.mode == 0:
             pyxel.run(self.update, self.draw_dev)
         if self.mode == 1:
@@ -160,13 +167,45 @@ class App:
 
         if pyxel.btn(pyxel.KEY_UP):
             if self.worldMap[int(ipy)][int(ipx_add_xo)] in [0, 2, 3]:
+                if not int(ipx) == int((self.px + self.pdx) / 64.0):
+                    for splite in self.spliteList:
+                        if splite["ix"] == int((self.px + self.pdx) / 64.0) and splite["iy"] == int(ipy) and splite["state"] == 1:
+                            splite["state"] = 0
+                            if splite["type"] == 2:
+                                self.score += 10
+                            if splite["type"] == 3:
+                                self.score += 50
                 self.px += self.pdx
             if self.worldMap[int(ipy_add_yo)][int(ipx)] in [0, 2, 3]:
+                if not int(ipy) == int((self.py + self.pdy) / 64.0):
+                    for splite in self.spliteList:
+                        if splite["ix"] == int(ipx) and splite["iy"] == int((self.py + self.pdy) / 64.0) and splite["state"] == 1:
+                            splite["state"] = 0
+                            if splite["type"] == 2:
+                                self.score += 10
+                            if splite["type"] == 3:
+                                self.score += 50
                 self.py += self.pdy
         if pyxel.btn(pyxel.KEY_DOWN):
             if self.worldMap[int(ipy)][int(ipx_sub_xo)] in [0, 2, 3]:
+                if not int(ipx) == int((self.px - self.pdx) / 64.0):
+                    for splite in self.spliteList:
+                        if splite["ix"] == int((self.px - self.pdx) / 64.0) and splite["iy"] == int(ipy) and splite["state"] == 1:
+                            splite["state"] = 0
+                            if splite["type"] == 2:
+                                self.score += 10
+                            if splite["type"] == 3:
+                                self.score += 50
                 self.px -= self.pdx
             if self.worldMap[int(ipy_sub_yo)][int(ipx)] in [0, 2, 3]:
+                if not int(ipy) == int((self.py - self.pdy) / 64.0):
+                    for splite in self.spliteList:
+                        if splite["ix"] == int(ipx) and splite["iy"] == int((self.py - self.pdy) / 64.0) and splite["state"] == 1:
+                            splite["state"] = 0
+                            if splite["type"] == 2:
+                                self.score += 10
+                            if splite["type"] == 3:
+                                self.score += 50
                 self.py -= self.pdy
 
         self.update_rays()
@@ -301,7 +340,10 @@ class App:
             pyxel.rect(i, ray["lineH"] + ray["lineO"], 4, 480 - ray["lineH"] - ray["lineO"], 1)
             # splite部分の描画
             self.draw_splite()
-        pyxel.text(200, 10, f'time: {pyxel.frame_count // 30}', 0)
+        pyxel.text(190, 10, 'time: ', 5)
+        pyxel.text(220, 10, f'{pyxel.frame_count // 30}', 0)
+        pyxel.text(190, 20, 'score: ', 5)
+        pyxel.text(220, 20, f'{self.score}', 0)
 
     def draw_dev(self):
         pyxel.cls(1)
@@ -375,7 +417,7 @@ class App:
                 sy = (sz * 216.0 / sy) + (160 / 2)
 
                 if sx > 0 and sx < 240 and b < self.depth[int(sx)]:
-                    if not(splite["type"] == 3 and pyxel.frame_count // 15 % 2 == 0):
+                    if splite["state"] == 1 and not(splite["type"] == 3 and pyxel.frame_count // 15 % 2 == 0):
                         pyxel.circ(sx + shiftX, sy, splite["size"], 3)
 
 App()
